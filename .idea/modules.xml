@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/HTTP_TRYING.iml" filepath="$PROJECT_DIR$/HTTP_TRYING.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/omertexTest.iml" filepath="$PROJECT_DIR$/omertexTest.iml" />
     </modules>
   </component>
 </project>

@@ -61,6 +61,11 @@ public class DetailInformarionActivity extends AppCompatActivity implements Deta
     }
 
     @Override
+    public void saveImages(ImageView iv, String folder) {
+        presenter.SavePicture(iv,folder);
+    }
+
+    @Override
     public void showMessage(String message) {
         Toast.makeText(DetailInformarionActivity.this, "Sorry", Toast.LENGTH_LONG).show();
     }
