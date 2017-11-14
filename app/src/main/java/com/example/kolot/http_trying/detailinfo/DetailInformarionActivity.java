@@ -1,10 +1,13 @@
 package com.example.kolot.http_trying.detailinfo;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -12,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.kolot.http_trying.R;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 public class DetailInformarionActivity extends AppCompatActivity implements DetailView {
     private ImageView imageView;
@@ -19,6 +23,7 @@ public class DetailInformarionActivity extends AppCompatActivity implements Deta
     private ProgressBar progressBar;
     private Toolbar toolbar;
     private DetailInformationPresenter presenter;
+    private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +45,8 @@ public class DetailInformarionActivity extends AppCompatActivity implements Deta
                 presenter.clickBack();
             }
         });
-
         presenter.bindView(this);
+
 
     }
 

@@ -82,4 +82,6 @@ public class DetailInformationPresenter implements DataSource.DataSourceInteract
         }
         return "";
     }
+
+
 }

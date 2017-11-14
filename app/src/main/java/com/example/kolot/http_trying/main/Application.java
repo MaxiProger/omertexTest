@@ -1,4 +1,4 @@
-package com.example.kolot.http_trying;
+package com.example.kolot.http_trying.main;
 
 import ly.img.android.PESDK;
 
