@@ -3,19 +3,16 @@ package com.example.kolot.http_trying.editor;
 import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
-import com.example.kolot.http_trying.R;
+import android.support.annotation.NonNull;
 
 import java.io.File;
 
 import ly.img.android.sdk.models.constant.Directory;
-import ly.img.android.sdk.models.state.EditorLoadSettings;
+import ly.img.android.sdk.models.state.CameraSettings;
 import ly.img.android.sdk.models.state.EditorSaveSettings;
 import ly.img.android.sdk.models.state.manager.SettingsList;
-import ly.img.android.ui.activities.PhotoEditorBuilder;
+import ly.img.android.ui.activities.CameraPreviewBuilder;
 import ly.img.android.ui.utilities.PermissionRequest;
 
 public class EditorActivity extends Activity implements PermissionRequest.Response {
@@ -33,15 +30,16 @@ public class EditorActivity extends Activity implements PermissionRequest.Respon
 
         ContextWrapper cw = new ContextWrapper(getApplicationContext());
         File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-        File myImageFile = new File(directory, "my_image.jpeg");
+        File myImageFile = new File(directory, "aaaaa.jpeg");
 
-        String myPicture = myImageFile.getPath();
+
         SettingsList settingsList = new SettingsList();
-
         settingsList
-                .getSettingsModel(EditorLoadSettings.class)
-                .setImageSourcePath(myPicture, true) // Load with delete protection true!
-
+                // Set custom camera export settings
+                .getSettingsModel(CameraSettings.class)
+                .setExportDir(Directory.DCIM, FOLDER)
+                .setExportPrefix("camera_")
+                // Set custom editor export settings
                 .getSettingsModel(EditorSaveSettings.class)
                 .setExportDir(Directory.DCIM, FOLDER)
                 .setExportPrefix("result_")
@@ -49,9 +47,7 @@ public class EditorActivity extends Activity implements PermissionRequest.Respon
                         EditorSaveSettings.SavePolicy.KEEP_SOURCE_AND_CREATE_ALWAYS_OUTPUT
                 );
 
-        // customizeMyConfig(settingsList);
-
-        new PhotoEditorBuilder(this)
+        new CameraPreviewBuilder(this)
                 .setSettingsList(settingsList)
                 .startActivityForResult(this, CAMERA_PREVIEW_RESULT);
     }

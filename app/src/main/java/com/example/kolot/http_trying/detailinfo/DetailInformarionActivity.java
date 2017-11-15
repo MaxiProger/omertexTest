@@ -17,13 +17,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kolot.http_trying.R;
-import com.example.kolot.http_trying.editor.EditorActivity;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import ly.img.android.sdk.models.constant.Directory;
+import ly.img.android.sdk.models.state.EditorLoadSettings;
+import ly.img.android.sdk.models.state.EditorSaveSettings;
+import ly.img.android.sdk.models.state.manager.SettingsList;
+import ly.img.android.ui.activities.PhotoEditorBuilder;
+
+import static com.example.kolot.http_trying.main.MainActivity.CAMERA_PREVIEW_RESULT;
 
 public class DetailInformarionActivity extends AppCompatActivity implements DetailView {
     private ImageView imageView;
@@ -32,6 +39,8 @@ public class DetailInformarionActivity extends AppCompatActivity implements Deta
     private Toolbar toolbar;
     private DetailInformationPresenter presenter;
     private Button button;
+    private static final String FOLDER = "Imgly";
+    private String imageName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +57,29 @@ public class DetailInformarionActivity extends AppCompatActivity implements Deta
 button.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View view) {
-        Intent intent = new Intent(DetailInformarionActivity.this, EditorActivity.class);
-        startActivity(intent);
+
+        ContextWrapper cw = new ContextWrapper(getApplicationContext());
+        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+        File myImageFile = new File(directory, "aaaaa.jpeg");
+
+
+        SettingsList settingsList = new SettingsList();
+        settingsList
+                .getSettingsModel(EditorLoadSettings.class)
+                .setImageSourcePath(myImageFile.getPath(), true) // Load with delete protection true!
+
+                .getSettingsModel(EditorSaveSettings.class)
+                .setExportDir(Directory.DCIM, FOLDER)
+                .setExportPrefix("result_")
+                .setSavePolicy(
+                        EditorSaveSettings.SavePolicy.KEEP_SOURCE_AND_CREATE_ALWAYS_OUTPUT
+                );
+
+        // customizeMyConfig(settingsList);
+
+        new PhotoEditorBuilder(DetailInformarionActivity.this)
+                .setSettingsList(settingsList)
+                .startActivityForResult(DetailInformarionActivity.this, CAMERA_PREVIEW_RESULT);
     }
 });
 
@@ -74,6 +104,9 @@ button.setOnClickListener(new View.OnClickListener() {
     }
 
     private Target picassoImageTarget(Context context, final String imageDir, final String imageName) {
+
+
+
         Log.d("picassoImageTarget", " picassoImageTarget");
         ContextWrapper cw = new ContextWrapper(context);
         final File directory = cw.getDir(imageDir, Context.MODE_PRIVATE); // path to /data/data/yourapp/app_imageDir
@@ -114,7 +147,7 @@ button.setOnClickListener(new View.OnClickListener() {
     }
 
     public void saveImagesPicasso(String url) {
-        Picasso.with(this).load(url).into(picassoImageTarget(getApplicationContext(), "imageDir", "asdasd.jpeg"));
+        Picasso.with(this).load(url).into(picassoImageTarget(getApplicationContext(), "imageDir", "aaaaa.jpeg"));
     }
 
     @Override

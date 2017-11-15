@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/omertexTest.iml" filepath="$PROJECT_DIR$/omertexTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/omertexTest.iml" filepath="$PROJECT_DIR$/.idea/omertexTest.iml" />
     </modules>
   </component>
 </project>
