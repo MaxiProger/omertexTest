@@ -40,7 +40,7 @@ public class DetailInformarionActivity extends AppCompatActivity implements Deta
     private DetailInformationPresenter presenter;
     private Button button;
     private static final String FOLDER = "Imgly";
-    private String imageName;
+    private String  logFileName = "tempImage";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +60,7 @@ button.setOnClickListener(new View.OnClickListener() {
 
         ContextWrapper cw = new ContextWrapper(getApplicationContext());
         File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-        File myImageFile = new File(directory, "aaaaa.jpeg");
+        File myImageFile = new File(directory, logFileName);
 
 
         SettingsList settingsList = new SettingsList();
@@ -103,7 +103,7 @@ button.setOnClickListener(new View.OnClickListener() {
 
     }
 
-    private Target picassoImageTarget(Context context, final String imageDir, final String imageName) {
+    private Target picassoImageTarget(Context context, final String imageDir, final String logFileName) {
 
 
 
@@ -116,7 +116,7 @@ button.setOnClickListener(new View.OnClickListener() {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        final File myImageFile = new File(directory, imageName); // Create image file
+                        final File myImageFile = new File(directory, logFileName); // Create image file
                         FileOutputStream fos = null;
                         try {
                             fos = new FileOutputStream(myImageFile);
@@ -147,7 +147,9 @@ button.setOnClickListener(new View.OnClickListener() {
     }
 
     public void saveImagesPicasso(String url) {
-        Picasso.with(this).load(url).into(picassoImageTarget(getApplicationContext(), "imageDir", "aaaaa.jpeg"));
+    Log.d("tag", url);
+
+        Picasso.with(this).load(url).into(picassoImageTarget(getApplicationContext(), "imageDir", logFileName));
     }
 
     @Override
