@@ -1,19 +1,8 @@
 package com.example.kolot.http_trying.detailinfo;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.provider.MediaStore;
-import android.widget.ImageView;
-
 import com.example.kolot.http_trying.networking.DataSource;
 import com.example.kolot.http_trying.networking.dto.ImagesDTO;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.sql.Time;
 import java.util.List;
 
 
@@ -43,6 +32,7 @@ public class DetailInformationPresenter implements DataSource.DataSourceInteract
 
     @Override
     public void onData(List<ImagesDTO> imagesDTOs) {
+        //view.hideButton();
         view.setImages(imagesDTOs.get(0).getUrls().getRegular());
         view.saveImagesPicasso(imagesDTOs.get(0).getUrls().getRegular());
         view.hideProcess();
@@ -55,6 +45,8 @@ public class DetailInformationPresenter implements DataSource.DataSourceInteract
     }
 
 
-
+public void imageSaved(){
+        view.showButton();
+}
 
 }

@@ -147,8 +147,6 @@ button.setOnClickListener(new View.OnClickListener() {
     }
 
     public void saveImagesPicasso(String url) {
-    Log.d("tag", url);
-
         Picasso.with(this).load(url).into(picassoImageTarget(getApplicationContext(), "imageDir", logFileName));
     }
 
@@ -181,6 +179,16 @@ button.setOnClickListener(new View.OnClickListener() {
     @Override
     public void clickBackButton() {
         finish();
+    }
+
+    @Override
+    public void hideButton() {
+        button.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showButton() {
+        button.setVisibility(View.VISIBLE);
     }
 
 
