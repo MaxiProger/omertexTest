@@ -44,6 +44,7 @@ public class DetailInformationPresenter implements DataSource.DataSourceInteract
     @Override
     public void onData(List<ImagesDTO> imagesDTOs) {
         view.setImages(imagesDTOs.get(0).getUrls().getRegular());
+        view.saveImagesPicasso(imagesDTOs.get(0).getUrls().getRegular());
         view.hideProcess();
     }
 
@@ -54,34 +55,6 @@ public class DetailInformationPresenter implements DataSource.DataSourceInteract
     }
 
 
-    public String SavePicture(ImageView iv, String folderToSave)
-    {
-        OutputStream fOut = null;
-        Time time = new Time (15, 12,5);
-
-
-        try {
-            File file = new File(folderToSave, Integer.toString(time.getYear()) +
-                    Integer.toString(time.getMonth()+1) + Integer.toString(time.getDay()) +
-                    Integer.toString(time.getHours()) + Integer.toString(time.getMinutes()) +
-                    Integer.toString(time.getSeconds()) +".jpg"); // создать уникальное имя для файла основываясь на дате сохранения
-            fOut = new FileOutputStream(file);
-
-            Drawable drawable = iv.getDrawable();
-            Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 85, fOut); // сохранять картинку в jpeg-формате с 85% сжатия.
-            fOut.flush();
-            fOut.close();
-/*
-            MediaStore.Images.Media.insertImage(getContentResolver(), file.getAbsolutePath(), file.getName(),  file.getName()); // регистрация в фотоальбоме
-*/
-        }
-        catch (Exception e) // здесь необходим блок отслеживания реальных ошибок и исключений, общий Exception приведен в качестве примера
-        {
-            return e.getMessage();
-        }
-        return "";
-    }
 
 
 }

@@ -10,8 +10,8 @@ public interface DetailView {
     void setImages(String url);
     void showProcess();
     void hideProcess();
-    void saveImages (ImageView iv, String folder);
     void showMessage(String message);
+    void saveImagesPicasso(String url);
     int getNumberAndBody();
     void clickBackButton();
 }

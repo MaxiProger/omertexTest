@@ -1,7 +1,10 @@
 package com.example.kolot.http_trying.detailinfo;
 
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,8 +17,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kolot.http_trying.R;
+import com.example.kolot.http_trying.editor.EditorActivity;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class DetailInformarionActivity extends AppCompatActivity implements DetailView {
     private ImageView imageView;
@@ -35,6 +43,15 @@ public class DetailInformarionActivity extends AppCompatActivity implements Deta
         description = (TextView) findViewById(R.id.description);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         toolbar = (Toolbar) findViewById(R.id.toolBar);
+        button = (Button) findViewById(R.id.button);
+
+button.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        Intent intent = new Intent(DetailInformarionActivity.this, EditorActivity.class);
+        startActivity(intent);
+    }
+});
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -53,6 +70,51 @@ public class DetailInformarionActivity extends AppCompatActivity implements Deta
     @Override
     public void setImages(String url) {
         Picasso.with(this).load(url).into(imageView);
+
+    }
+
+    private Target picassoImageTarget(Context context, final String imageDir, final String imageName) {
+        Log.d("picassoImageTarget", " picassoImageTarget");
+        ContextWrapper cw = new ContextWrapper(context);
+        final File directory = cw.getDir(imageDir, Context.MODE_PRIVATE); // path to /data/data/yourapp/app_imageDir
+        return new Target() {
+            @Override
+            public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        final File myImageFile = new File(directory, imageName); // Create image file
+                        FileOutputStream fos = null;
+                        try {
+                            fos = new FileOutputStream(myImageFile);
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } finally {
+                            try {
+                                fos.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        Log.i("image", "image saved to >>>" + myImageFile.getAbsolutePath());
+
+                    }
+                }).start();
+            }
+
+            @Override
+            public void onBitmapFailed(Drawable errorDrawable) {
+            }
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+                if (placeHolderDrawable != null) {}
+            }
+        };
+    }
+
+    public void saveImagesPicasso(String url) {
+        Picasso.with(this).load(url).into(picassoImageTarget(getApplicationContext(), "imageDir", "asdasd.jpeg"));
     }
 
     @Override
@@ -65,10 +127,8 @@ public class DetailInformarionActivity extends AppCompatActivity implements Deta
         progressBar.setVisibility(View.GONE);
     }
 
-    @Override
-    public void saveImages(ImageView iv, String folder) {
-        presenter.SavePicture(iv,folder);
-    }
+
+
 
     @Override
     public void showMessage(String message) {
