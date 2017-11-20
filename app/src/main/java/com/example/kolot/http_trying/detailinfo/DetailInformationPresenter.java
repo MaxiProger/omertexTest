@@ -26,7 +26,7 @@ public class DetailInformationPresenter implements DataSource.DataSourceInteract
         dataSource.getImagesForUser(position, this);
     }
 
-    public void clickBack(){
+    public void clickBack() {
         view.clickBackButton();
     }
 
@@ -43,10 +43,4 @@ public class DetailInformationPresenter implements DataSource.DataSourceInteract
         view.showMessage("Sorry");
         view.hideProcess();
     }
-
-
-public void imageSaved(){
-        view.showButton();
-}
-
 }
